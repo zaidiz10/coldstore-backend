@@ -16,6 +16,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Health check route
+app.get("/", (req, res) => {
+  res.send("Backend is working!");
+});
+
 // Routes
 app.use('/api/stocks', stockRoutes);
 app.use('/api/baramad', baramadRoutes);
