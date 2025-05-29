@@ -3,28 +3,26 @@ const router = express.Router();
 const db = require('../config/db');
 
 // Get all customer_details
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   const query = 'SELECT * FROM customer_details';
-  db.query(query, (err, results) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json(results);
-    }
-  });
+  try {
+    const [results] = await db.query(query);
+    res.json(results);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Get customer_details by customer ID
-router.get('/:customerId', (req, res) => {
+router.get('/:customerId', async (req, res) => {
   const { customerId } = req.params;
   const query = 'SELECT * FROM customer_details WHERE customer_id = ?';
-  db.query(query, [customerId], (err, results) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json(results);
-    }
-  });
+  try {
+    const [results] = await db.query(query, [customerId]);
+    res.json(results);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 module.exports = router;

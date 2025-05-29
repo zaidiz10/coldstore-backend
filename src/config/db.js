@@ -11,4 +11,14 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
+// Test connection and log success or error
+pool.promise().getConnection()
+  .then(connection => {
+    console.log('Successfully connected to Railway MySQL!');
+    connection.release();
+  })
+  .catch(err => {
+    console.error('Unable to connect to Railway MySQL:', err.message);
+  });
+
 module.exports = pool.promise();
