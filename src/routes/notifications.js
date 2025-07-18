@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const admin = require('firebase-admin');
-const db = require('../db'); // your MySQL connection
+const db = require('../config/db'); // your MySQL connection
 
 router.post('/send-notification', async (req, res) => {
   const { title, body } = req.body;

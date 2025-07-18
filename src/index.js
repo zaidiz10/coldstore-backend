@@ -9,6 +9,7 @@ const daramadRoutes = require('./routes/daramadRoutes');
 const khataRoutes = require('./routes/khataRoutes');
 const userRoutes = require('./routes/userRoutes');
 const shoproutes = require('./routes/shopRoutes');
+const notificationRoutes = require('./routes/notifications');
 
 const app = express();
 
@@ -30,6 +31,8 @@ app.use('/api/daramad', daramadRoutes);
 app.use('/api/khata', khataRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/shops', shoproutes);
+app.use('/api/notifications', notificationRoutes);
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
