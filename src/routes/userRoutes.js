@@ -25,4 +25,24 @@ router.get('/:customerId', async (req, res) => {
   }
 });
 
+// Save FCM token
+router.post('/save-fcm-token', async (req, res) => {
+  const { userId, fcmToken } = req.body;
+
+  try {
+    // Save or update token in database
+    await db.query(
+      `INSERT INTO fcm_tokens (user_id, token)
+       VALUES (?, ?)
+       ON DUPLICATE KEY UPDATE token = ?`,
+      [userId, fcmToken, fcmToken]
+    );
+
+    res.status(200).json({ message: 'FCM token saved' });
+  } catch (error) {
+    console.error('❌ Failed to save token:', error);
+    res.status(500).json({ error: 'Failed to save token' });
+  }
+});
+
 module.exports = router;
