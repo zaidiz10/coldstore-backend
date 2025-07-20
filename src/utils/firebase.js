@@ -6,6 +6,8 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
+console.log('Firebase initialized')
+
 function sendNotificationToMobile(token, title, body) {
   const message = {
     notification: {

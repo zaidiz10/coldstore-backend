@@ -10,6 +10,7 @@ const khataRoutes = require('./routes/khataRoutes');
 const userRoutes = require('./routes/userRoutes');
 const shoproutes = require('./routes/shopRoutes');
 const notificationRoutes = require('./routes/notifications');
+const fcmTokensRouter = require('./routes/fcmTokens');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/api/khata', khataRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/shops', shoproutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api', fcmTokensRouter);
 
 
 // Start the server
