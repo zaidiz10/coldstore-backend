@@ -19,20 +19,33 @@ router.post('/send-notification', async (req, res) => {
     }
 
     const message = {
-      notification: {
-        title,
-        body
-      },
-      tokens: tokens // send to all
+      notification: { title, body },
+      tokens,
     };
 
     const response = await admin.messaging().sendEachForMulticast(message);
     console.log('📤 Notifications sent:', response.successCount);
-    
+
+    // 🧹 Remove dead tokens
+    const failedTokens = [];
+    response.responses.forEach((resp, idx) => {
+      if (!resp.success) {
+        console.warn(`⚠️ Failed token: ${tokens[idx]}`, resp.error?.message);
+        failedTokens.push(tokens[idx]);
+      }
+    });
+
+    if (failedTokens.length > 0) {
+      const deleteQuery = `DELETE FROM fcm_tokens WHERE token IN (${failedTokens.map(() => '?').join(',')})`;
+      await db.query(deleteQuery, failedTokens);
+      console.log(`🧹 Removed ${failedTokens.length} invalid tokens`);
+    }
+
     res.status(200).json({
       message: `Sent to ${response.successCount} devices.`,
-      errors: response.failureCount
+      errors: response.failureCount,
     });
+
   } catch (error) {
     console.error('❌ Notification error:', error);
     res.status(500).json({ error: error.message });
