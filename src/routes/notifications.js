@@ -26,8 +26,9 @@ router.post('/send-notification', async (req, res) => {
       tokens: tokens // send to all
     };
 
-    const response = await admin.messaging().sendMulticast(message);
+    const response = await admin.messaging().sendEachForMulticast(message);
     console.log('📤 Notifications sent:', response.successCount);
+    
     res.status(200).json({
       message: `Sent to ${response.successCount} devices.`,
       errors: response.failureCount
