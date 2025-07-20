@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('./firebase'); // ✅ Initialize Firebase early!
+require('./utils/firebase'); // ✅ Initialize Firebase early!
 const express = require('express');
 const cors = require('cors');
 const stockRoutes = require('./routes/stockRoutes');
